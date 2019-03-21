@@ -36,40 +36,50 @@ public class DefenseurTest {
         nouvelleList.add(rand.nextInt(max - min + 1) + min);
         nouvelleList.add(rand.nextInt(max - min + 1) + min);
         nouvelleList.add(rand.nextInt(max - min + 1) + min);
-        System.out.println("***La première combinaison de l'ordinateur est : " + nouvelleList);
+        System.out.println("La première combinaison de l'ordinateur est : " + nouvelleList);
         List<Integer> combinaisonSecrete = extraiList(nbsaisi);
 
 
         int nbessais = 0;
         int reste;
 
-        while (nbessais < 150) {
+        while (nbessais < 10) {
 
             if (combinaisonSecrete.equals(nouvelleList)) {
-                nbessais = 10;
-                System.out.println("L'ordianateur a trouvé votre combinaison Secrete en " + nbessais + " essais");
+                List<String> resultat = comparaison(nouvelleList, combinaisonSecrete);
+                System.out.println("" + resultat);
+                System.out.println("L'ordinateur a trouvé votre combinaison secrète en " + nbessais + " essai(s)");
+                System.out.println("La nouvelle combinaison de l'ordinateur est : " + nouvelleList);
+                break;
+
             } else {
                 List<String> resultat = comparaison(nouvelleList, combinaisonSecrete);
+                List<Integer> newList = new ArrayList<Integer>();
 
                 for (int i = 0; i < resultat.size(); i++) {
 
+                    int valeurMoins = nouvelleList.get(i) +1;
+                    int valeurPlus = nouvelleList.get(i) -1;
 
                     if (resultat.get(i).equals("+")) {
-
-                        nouvelleList.set(nouvelleList.get(i), nouvelleList.get(i) - 1);
+                        newList.add(valeurMoins);
                     } else if (resultat.get(i).equals("-")) {
-
-                        nouvelleList.set(nouvelleList.get(i), nouvelleList.get(i) + 1);
+                        newList.add(valeurPlus);
+                    } else if (resultat.get(i).equals("=")) {
+                        newList.add(nouvelleList.get(i));
                     }
                 }
+                nouvelleList.clear();
+                nouvelleList.addAll(newList);
+
                 System.out.println("Le resultat est : " + resultat);
-                System.out.println("Lataille de ma liste résultat est : " +resultat.size());
-                System.out.println("La nouvelle liste est : " + nouvelleList);
-                System.out.println("La taille de la nouvelle liste est : " +nouvelleList.size());
+                System.out.println("La nouvelle combinaison de l'ordinateur est : " + nouvelleList);
                 nbessais = nbessais + 1;
+
+                reste = 10 - nbessais;
+                System.out.println("Il vous reste " + reste + " essai(s)");
+
             }
-            reste = 150 - nbessais;
-            System.out.println("Il vous reste " + reste + " essais");
         }
     }
 
@@ -80,10 +90,9 @@ public class DefenseurTest {
             Integer chiffre = Integer.valueOf(chainChar);
             combinaisonSecrete.add(chiffre);
         }
-        System.out.println("Affichage de la nouvelle liste de chiffre : " + combinaisonSecrete);
+        System.out.println("La combinaison secrète est : " + combinaisonSecrete);
         return combinaisonSecrete;
     }
-
 
     private static List<String> comparaison(List<Integer> nouvelleList, List<Integer> combinaisonSecrete) {
         List<String> resultat = new ArrayList<String>();
@@ -101,4 +110,7 @@ public class DefenseurTest {
         return resultat;
     }
 }
+
+
+
 
